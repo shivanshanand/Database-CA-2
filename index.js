@@ -58,7 +58,7 @@ app.post("/create", async (req, res) => {
       restaurant: newrestaurant,
     });
   } catch (error) {
-    console.log("Failed to create new restaurant",error);
+    console.log("Failed to create new restaurant", error);
     res.status(500).json({
       success: false,
       error: "Something went wrong",
@@ -85,13 +85,13 @@ app.get("/:id", async (req, res) => {
   try {
     const id = req.params.id;
 
+    const restaurant = await Restaurants.findById({ _id: id });
+
     if (!id) {
       res.status(400).json({
         error: "Restaurant not found",
       });
     }
-
-    const restaurant = await Restaurants.findById({ _id: id });
 
     res.status(200).json({
       success: true,
@@ -115,7 +115,7 @@ app.put("/:id", async (req, res) => {
       });
     }
 
-    const restaurant = await Restaurants.findById(
+    const restaurant = await Restaurants.findByIdAndUpdate(
       { _id: id },
       { name, location, cuisine, rating, menu },
       {
